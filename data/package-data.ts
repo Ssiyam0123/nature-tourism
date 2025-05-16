@@ -1,0 +1,32 @@
+export const packageData = [
+  {
+    title: "Sundarbans Mangrove Forest",
+    type: "Wildlife",
+    image: "/images/package-1.jpg",
+    location: "Khulna, Bangladesh",
+    duration: "3 Days, 2 Nights",
+    groupSize: 12,
+    price: 299,
+    rating: 4.8,
+  },
+  {
+    title: "Bandarban Hill Treks",
+    type: "Adventure",
+    image: "/images/package-2.jpg",
+    location: "Bandarban, Bangladesh",
+    duration: "5 Days, 4 Nights",
+    groupSize: 8,
+    price: 399,
+    rating: 4.9,
+  },
+  {
+    title: "Sylhet Tea Gardens",
+    type: "Cultural",
+    image: "/images/package-3.jpg",
+    location: "Sylhet, Bangladesh",
+    duration: "2 Days, 1 Night",
+    groupSize: 15,
+    price: 199,
+    rating: 4.7,
+  },
+]
