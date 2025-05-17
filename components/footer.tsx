@@ -8,7 +8,7 @@ export default function Footer({ minimal = false }: { minimal?: boolean }) {
       <footer className="border-t py-4">
         <div className="container flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center gap-2 mb-4 md:mb-0">
-            <Image src="/placeholder.svg?height=24&width=24" alt="Logo" width={24} height={24} />
+            <Image src="/logo-removebg-preview.png" alt="Logo" width={24} height={24} />
             <span className="text-sm font-semibold">Bangladesh Tourism</span>
           </div>
           <p className="text-sm text-muted-foreground">
@@ -24,7 +24,7 @@ export default function Footer({ minimal = false }: { minimal?: boolean }) {
       <div className="container grid grid-cols-1 md:grid-cols-4 gap-8">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <Image src="/placeholder.svg?height=32&width=32" alt="Logo" width={32} height={32} />
+            <Image src="/logo-removebg-preview.png" alt="Logo" width={32} height={32} />
             <span className="text-xl font-bold">Bangladesh Tourism</span>
           </div>
           <p className="text-muted-foreground">

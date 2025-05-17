@@ -31,7 +31,7 @@ export default function Navbar() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/placeholder.svg?height=32&width=32" alt="Logo" width={32} height={32} />
+            <Image src="/logo-removebg-preview.png" alt="Logo" width={32} height={32} className="" />
             <span className="text-xl font-bold">Bangladesh Tourism</span>
           </Link>
         </div>

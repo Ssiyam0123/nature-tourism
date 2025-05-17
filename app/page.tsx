@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Link from "next/link"
-import Image from "next/image"
-import { PackageCard } from "@/components/package-card"
-import { TourGuideCard } from "@/components/tour-guide-card"
-import { StoryCard } from "@/components/story-card"
-import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
+import Image from "next/image";
+import { PackageCard } from "@/components/package-card";
+import { TourGuideCard } from "@/components/tour-guide-card";
+import { StoryCard } from "@/components/story-card";
+import { motion } from "framer-motion";
 
 export default function Home() {
   // Sample data for packages
@@ -33,7 +33,7 @@ export default function Home() {
       price: 12000,
       image: "/placeholder.svg?height=300&width=400",
     },
-  ]
+  ];
 
   // Sample data for tour guides
   const tourGuides = [
@@ -79,14 +79,15 @@ export default function Home() {
       speciality: "Historical Tours",
       image: "/placeholder.svg?height=200&width=200",
     },
-  ]
+  ];
 
   // Sample data for stories
   const stories = [
     {
       id: "1",
       title: "My Amazing Trip to Cox's Bazar",
-      content: "It was an unforgettable experience with beautiful beaches and sunsets...",
+      content:
+        "It was an unforgettable experience with beautiful beaches and sunsets...",
       author: "Arif Khan",
       date: "2023-05-15",
       image: "/placeholder.svg?height=300&width=400",
@@ -94,7 +95,8 @@ export default function Home() {
     {
       id: "2",
       title: "Exploring the Sundarbans",
-      content: "Seeing Royal Bengal Tigers in their natural habitat was breathtaking...",
+      content:
+        "Seeing Royal Bengal Tigers in their natural habitat was breathtaking...",
       author: "Mina Rahman",
       date: "2023-06-22",
       image: "/placeholder.svg?height=300&width=400",
@@ -102,7 +104,8 @@ export default function Home() {
     {
       id: "3",
       title: "Tea Gardens of Sylhet",
-      content: "The lush green tea gardens and the misty mountains were a sight to behold...",
+      content:
+        "The lush green tea gardens and the misty mountains were a sight to behold...",
       author: "Kabir Ahmed",
       date: "2023-07-10",
       image: "/placeholder.svg?height=300&width=400",
@@ -110,18 +113,28 @@ export default function Home() {
     {
       id: "4",
       title: "Historical Tour of Old Dhaka",
-      content: "The rich history and architecture of Old Dhaka left me in awe...",
+      content:
+        "The rich history and architecture of Old Dhaka left me in awe...",
       author: "Laila Begum",
       date: "2023-08-05",
       image: "/placeholder.svg?height=300&width=400",
     },
-  ]
+  ];
 
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Banner Section */}
       <section className="relative h-[500px] rounded-xl overflow-hidden mb-16">
-        <Image src="/placeholder.svg?height=500&width=1200" alt="Tourism Banner" fill className="object-cover" />
+        import Image from 'next/image';
+        <Image
+          src="/banner.jpg" // Note: Remove "/public" from the path
+          alt="Banner image"
+          fill
+          style={{ objectFit: "cover" }} // or "contain" based on your needs
+          sizes="100vw" // important for responsive images
+          quality={100} // optional
+          priority // optional if this is above the fold
+        />
         <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white p-4">
           <motion.h1
             className="text-4xl md:text-6xl font-bold mb-4 text-center"
@@ -153,18 +166,23 @@ export default function Home() {
 
       {/* Overview Section */}
       <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-6 text-center">Welcome to Bangladesh Tourism</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">
+          Welcome to Bangladesh Tourism
+        </h2>
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div>
             <p className="text-lg mb-4">
-              Bangladesh, a land of natural beauty, rich culture, and warm hospitality, offers a diverse range of
-              experiences for travelers. From the world's longest natural sea beach in Cox's Bazar to the majestic
-              Sundarbans mangrove forest, home to the Royal Bengal Tiger, Bangladesh has something for everyone.
+              Bangladesh, a land of natural beauty, rich culture, and warm
+              hospitality, offers a diverse range of experiences for travelers.
+              From the world's longest natural sea beach in Cox's Bazar to the
+              majestic Sundarbans mangrove forest, home to the Royal Bengal
+              Tiger, Bangladesh has something for everyone.
             </p>
             <p className="text-lg mb-4">
-              Our tourism platform connects you with the best tour guides and packages to explore this beautiful
-              country. Whether you're interested in beach getaways, wildlife adventures, cultural experiences, or
-              historical tours, we've got you covered.
+              Our tourism platform connects you with the best tour guides and
+              packages to explore this beautiful country. Whether you're
+              interested in beach getaways, wildlife adventures, cultural
+              experiences, or historical tours, we've got you covered.
             </p>
             <Button asChild>
               <Link href="/about-us">Learn More About Us</Link>
@@ -187,7 +205,9 @@ export default function Home() {
 
       {/* Tourism and Travel Guide Section */}
       <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-6 text-center">Tourism and Travel Guide</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">
+          Tourism and Travel Guide
+        </h2>
         <Tabs defaultValue="packages" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8">
             <TabsTrigger value="packages">Our Packages</TabsTrigger>
@@ -238,7 +258,9 @@ export default function Home() {
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-3xl font-bold mb-6 text-center">Popular Destinations</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">
+          Popular Destinations
+        </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="relative h-[200px] rounded-xl overflow-hidden group">
             <Image
@@ -295,12 +317,19 @@ export default function Home() {
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-3xl font-bold mb-6 text-center">What Our Tourists Say</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">
+          What Our Tourists Say
+        </h2>
         <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-card p-6 rounded-xl shadow">
             <div className="flex items-center mb-4">
               <div className="relative w-12 h-12 rounded-full overflow-hidden mr-4">
-                <Image src="/placeholder.svg?height=50&width=50" alt="Tourist" fill className="object-cover" />
+                <Image
+                  src="/placeholder.svg?height=50&width=50"
+                  alt="Tourist"
+                  fill
+                  className="object-cover"
+                />
               </div>
               <div>
                 <h4 className="font-bold">Rahima Begum</h4>
@@ -308,14 +337,19 @@ export default function Home() {
               </div>
             </div>
             <p className="italic">
-              "The tour guide was extremely knowledgeable and made our trip to Cox's Bazar unforgettable. Highly
-              recommended!"
+              "The tour guide was extremely knowledgeable and made our trip to
+              Cox's Bazar unforgettable. Highly recommended!"
             </p>
           </div>
           <div className="bg-card p-6 rounded-xl shadow">
             <div className="flex items-center mb-4">
               <div className="relative w-12 h-12 rounded-full overflow-hidden mr-4">
-                <Image src="/placeholder.svg?height=50&width=50" alt="Tourist" fill className="object-cover" />
+                <Image
+                  src="/placeholder.svg?height=50&width=50"
+                  alt="Tourist"
+                  fill
+                  className="object-cover"
+                />
               </div>
               <div>
                 <h4 className="font-bold">Karim Ahmed</h4>
@@ -323,14 +357,19 @@ export default function Home() {
               </div>
             </div>
             <p className="italic">
-              "The Sundarbans tour was well-organized and exceeded all our expectations. We even spotted a Royal Bengal
-              Tiger!"
+              "The Sundarbans tour was well-organized and exceeded all our
+              expectations. We even spotted a Royal Bengal Tiger!"
             </p>
           </div>
           <div className="bg-card p-6 rounded-xl shadow">
             <div className="flex items-center mb-4">
               <div className="relative w-12 h-12 rounded-full overflow-hidden mr-4">
-                <Image src="/placeholder.svg?height=50&width=50" alt="Tourist" fill className="object-cover" />
+                <Image
+                  src="/placeholder.svg?height=50&width=50"
+                  alt="Tourist"
+                  fill
+                  className="object-cover"
+                />
               </div>
               <div>
                 <h4 className="font-bold">Nusrat Jahan</h4>
@@ -338,12 +377,12 @@ export default function Home() {
               </div>
             </div>
             <p className="italic">
-              "The tea garden tour in Sylhet was breathtaking. Our guide was friendly and shared fascinating insights
-              about tea production."
+              "The tea garden tour in Sylhet was breathtaking. Our guide was
+              friendly and shared fascinating insights about tea production."
             </p>
           </div>
         </div>
       </motion.section>
     </div>
-  )
+  );
 }
