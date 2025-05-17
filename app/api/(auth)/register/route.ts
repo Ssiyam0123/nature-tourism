@@ -2,6 +2,7 @@ import User from "@/models/User";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import connect from "@/lib/db";
+import { auth } from "@/lib/firebase";
 
 export const POST = async (request: Request) => {
   try {
@@ -26,6 +27,18 @@ export const POST = async (request: Request) => {
         { status: 409 }
       );
     }
+
+
+//     const fireBaseUser = await auth.currentUser({
+//         email,
+//         password,
+//         displayName: name,
+//         photoUrl : profileImage || ''
+//     })
+// console.log(fireBaseUser)
+
+
+
 
     // Hash password
     const salt = await bcrypt.genSalt(10);

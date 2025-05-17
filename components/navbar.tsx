@@ -13,19 +13,23 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { LogOutIcon, MenuIcon, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { use, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Static user data - in real app this would come from auth state
-  const isLoggedIn = true;
-  const user = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    image: "/placeholder.svg?height=50&width=50",
-  };
+  // const isLoggedIn = true;
+  // const user = {
+  //   name: "John Doe",
+  //   email: "john.doe@example.com",
+  //   image: "/placeholder.svg?height=50&width=50",
+  // };
 
   // Navigation links array
   const navLinks = [
@@ -37,7 +41,15 @@ export default function Navbar() {
   ];
 
   const pathName = usePathname();
-  console.log(pathName);
+  // console.log(pathName);
+  const {user} = useAuth();
+  // console.log(user)
+
+
+  const handleSignOut =async () =>{
+    await signOut(auth)
+    toast.success("successfully log out")
+  }
 
   return (
     <div>
@@ -78,7 +90,7 @@ export default function Navbar() {
 
             <div className="flex items-center gap-2">
               <ModeToggle />
-              {isLoggedIn ? (
+              {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
@@ -86,7 +98,7 @@ export default function Navbar() {
                       className="relative h-8 w-8 rounded-full"
                     >
                       <Image
-                        src={user.image || "/placeholder.svg"}
+                        src={user?.avatar || "/placeholder.svg"}
                         alt="Profile"
                         className="rounded-full object-cover"
                         fill
@@ -116,7 +128,7 @@ export default function Navbar() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>
                       <LogOutIcon className="mr-2 h-4 w-4" />
-                      <span>Log out</span>
+                      <div onClick={handleSignOut}>Log out</div>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

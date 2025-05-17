@@ -1,76 +1,131 @@
-'use client'
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Link from "next/link"
-import { useState } from "react"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { auth, googleProvider } from "@/lib/firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function AuthPage() {
+
+  const router = useRouter();
+
   // State for login form
   const [loginData, setLoginData] = useState({
-    email: '',
-    password: ''
-  })
+    email: "",
+    password: "",
+  });
 
   // State for register form
   const [registerData, setRegisterData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    profileImage: null
-  })
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    profileImage: null,
+  });
 
   // Handle login input changes
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target
-    setLoginData(prev => ({
+    const { id, value } = e.target;
+    setLoginData((prev) => ({
       ...prev,
-      [id]: value
-    }))
-  }
+      [id]: value,
+    }));
+  };
 
   // Handle register input changes
   const handleRegisterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value, files } = e.target
-    setRegisterData(prev => ({
+    const { id, value, files } = e.target;
+    setRegisterData((prev) => ({
       ...prev,
-      [id]: files ? files[0] : value
-    }))
-  }
+      [id]: files ? files[0] : value,
+    }));
+  };
 
   // Handle login submission
-  const handleLoginSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Login Data:', loginData)
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // console.log("Login Data:", loginData);
     // Add your authentication logic here
-  }
+    try {
+       await signInWithEmailAndPassword(
+        auth,
+        loginData.email,
+        loginData.password
+      ).then((res)=>{
+        if(res?.user){
+          toast.success("login successfully")
+          router.push('/')
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   // Handle register submission
   const handleRegisterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Register Data:', registerData)
+    e.preventDefault();
+    // console.log('Register Data:', registerData)
     try {
-      const res= await fetch("/api/register",{
-        method: 'POST',
-        headers:{
-            'Content-Type': 'application/json',
+      const firebaseReg = await createUserWithEmailAndPassword(
+        auth,
+        registerData.email,
+        registerData.password
+      ).then((res) => {
+        console.log(res.user);
+      });
+
+      // console.log(firebaseReg);
+
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: registerData?.name,
           email: registerData?.email,
           password: registerData.password,
-          profileImage: registerData.profileImage
-        })
-      })
+          profileImage: registerData.profileImage,
+        }),
+      }).then((res) => {
+        // console.log(res);
+        if (res.status == 201) {
+          setRegisterData({
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            profileImage: null,
+          });
+          toast.success("Registration successfull")
+          router.push('/')
+        }
+      });
     } catch (error: any) {
-      throw new Error('register filed')
+      throw new Error("register filed");
     }
     // Add your registration logic here
-  }
+  };
 
   return (
     <div className="container mx-auto flex items-center justify-center min-h-[calc(100vh-200px)] px-4 py-8">
@@ -85,16 +140,18 @@ export default function AuthPage() {
           <TabsContent value="login">
             <CardHeader>
               <CardTitle>Login to your account</CardTitle>
-              <CardDescription>Enter your email and password to access your account</CardDescription>
+              <CardDescription>
+                Enter your email and password to access your account
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <form onSubmit={handleLoginSubmit}>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input 
-                    id="email" 
-                    type="email" 
-                    placeholder="name@example.com" 
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="name@example.com"
                     value={loginData.email}
                     onChange={handleLoginChange}
                   />
@@ -102,28 +159,39 @@ export default function AuthPage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password">Password</Label>
-                    <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                    <Link
+                      href="/forgot-password"
+                      className="text-sm text-primary hover:underline"
+                    >
                       Forgot password?
                     </Link>
                   </div>
-                  <Input 
-                    id="password" 
-                    type="password" 
+                  <Input
+                    id="password"
+                    type="password"
                     value={loginData.password}
                     onChange={handleLoginChange}
                   />
                 </div>
-                <Button type="submit" className="w-full mt-4">Login</Button>
+                <Button type="submit" className="w-full mt-4">
+                  Login
+                </Button>
               </form>
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
                 </div>
               </div>
-              <Button variant="outline" className="w-full">
+              <Button
+                onClick={() => signInWithPopup(auth, googleProvider)}
+                variant="outline"
+                className="w-full"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -143,63 +211,69 @@ export default function AuthPage() {
           <TabsContent value="register">
             <CardHeader>
               <CardTitle>Create an account</CardTitle>
-              <CardDescription>Enter your details to create a new account</CardDescription>
+              <CardDescription>
+                Enter your details to create a new account
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <form onSubmit={handleRegisterSubmit}>
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
-                  <Input 
-                    id="name" 
-                    placeholder="John Doe" 
+                  <Input
+                    id="name"
+                    placeholder="John Doe"
                     value={registerData.name}
                     onChange={handleRegisterChange}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input 
-                    id="email" 
-                    type="email" 
-                    placeholder="name@example.com" 
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="name@example.com"
                     value={registerData.email}
                     onChange={handleRegisterChange}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
-                  <Input 
-                    id="password" 
-                    type="password" 
+                  <Input
+                    id="password"
+                    type="password"
                     value={registerData.password}
                     onChange={handleRegisterChange}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="confirmPassword">Confirm Password</Label>
-                  <Input 
-                    id="confirmPassword" 
-                    type="password" 
+                  <Input
+                    id="confirmPassword"
+                    type="password"
                     value={registerData.confirmPassword}
                     onChange={handleRegisterChange}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="profileImage">Profile Image</Label>
-                  <Input 
-                    id="profileImage" 
-                    type="file" 
+                  <Input
+                    id="profileImage"
+                    type="file"
                     onChange={handleRegisterChange}
                   />
                 </div>
-                <Button type="submit" className="w-full mt-4">Register</Button>
+                <Button type="submit" className="w-full mt-4">
+                  Register
+                </Button>
               </form>
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
                 </div>
               </div>
               <Button variant="outline" className="w-full">
@@ -232,5 +306,5 @@ export default function AuthPage() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
