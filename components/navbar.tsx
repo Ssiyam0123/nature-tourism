@@ -1,97 +1,140 @@
 "use client"
 
-import { useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { usePathname } from "next/navigation"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { ModeToggle } from "@/components/mode-toggle"
+import { LogOutIcon, MenuIcon, UserIcon } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { useState } from "react"
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const pathName = usePathname()
-
-  // Navbar links data
-  const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/packages", label: "Packages" },
-    { href: "/community", label: "Community" },
-    { href: "/about", label: "About Us" },
-    { href: "/contact", label: "Contact" },
-    { href: "/admin", label: "Admin" }
-  ]
+  // This is a static version, so we'll simulate a logged-in user
+  // In a real application, this would come from authentication state
+  const isLoggedIn = true
+  const user = {
+    name: "John Doe",
+    email: "john.doe@example.com",
+    image: "/placeholder.svg?height=50&width=50",
+  }
 
   return (
-    <header className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-green-100">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="relative w-8 h-8">
-              <Image 
-                src="/images/logo.png" 
-                alt="Tourist Guide Logo" 
-                fill 
-                className="object-contain" 
-              />
-            </div>
-            <span className="font-bold text-xl text-green-900">Tourist Guide</span>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
+            <Image src="/placeholder.svg?height=32&width=32" alt="Logo" width={32} height={32} />
+            <span className="text-xl font-bold">Bangladesh Tourism</span>
           </Link>
+        </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-green-800 hover:text-green-600 font-medium ${
-                  pathName === link.href ? "text-red-300 font-semibold" : ""
-                }`}
-              >
-                {link.label}
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-6">
+          <Link href="/" className="text-sm font-medium hover:text-primary">
+            Home
+          </Link>
+          <Link href="/community" className="text-sm font-medium hover:text-primary">
+            Community
+          </Link>
+          <Link href="/about-us" className="text-sm font-medium hover:text-primary">
+            About Us
+          </Link>
+          <Link href="/trips" className="text-sm font-medium hover:text-primary">
+            Trips
+          </Link>
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <ModeToggle />
+          {isLoggedIn ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Image
+                    src={user.image || "/placeholder.svg"}
+                    alt="Profile"
+                    className="rounded-full object-cover"
+                    fill
+                  />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{user.name}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/offer-announcements">Offer Announcements</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <LogOutIcon className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button asChild>
+              <Link href="/login">
+                <UserIcon className="mr-2 h-4 w-4" />
+                Login / Register
               </Link>
-            ))}
-          </nav>
-
-          {/* Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" className="border-green-600 text-green-700 hover:bg-green-50">
-              Login
             </Button>
-            <Button className="bg-green-600 hover:bg-green-700">Register</Button>
-          </div>
+          )}
 
           {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden text-green-800" 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <Button variant="ghost" className="md:hidden" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <MenuIcon className="h-6 w-6" />
+          </Button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-green-100">
-          <div className="container mx-auto px-4 py-4 space-y-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block py-2 text-green-800 hover:text-green-600 font-medium"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="pt-4 flex flex-col space-y-3">
-              <Button variant="outline" className="w-full border-green-600 text-green-700 hover:bg-green-50">
-                Login
-              </Button>
-              <Button className="w-full bg-green-600 hover:bg-green-700">Register</Button>
-            </div>
+        <div className="md:hidden border-t">
+          <div className="container py-4 space-y-2">
+            <Link
+              href="/"
+              className="block py-2 text-sm font-medium hover:text-primary"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/community"
+              className="block py-2 text-sm font-medium hover:text-primary"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Community
+            </Link>
+            <Link
+              href="/about-us"
+              className="block py-2 text-sm font-medium hover:text-primary"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About Us
+            </Link>
+            <Link
+              href="/trips"
+              className="block py-2 text-sm font-medium hover:text-primary"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Trips
+            </Link>
           </div>
         </div>
       )}

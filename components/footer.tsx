@@ -1,146 +1,142 @@
-import Link from "next/link"
+import { FacebookIcon, GithubIcon, InstagramIcon, LinkedinIcon, TwitterIcon } from "lucide-react"
 import Image from "next/image"
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react"
+import Link from "next/link"
 
-export default function Footer() {
+export default function Footer({ minimal = false }: { minimal?: boolean }) {
+  if (minimal) {
+    return (
+      <footer className="border-t py-4">
+        <div className="container flex flex-col md:flex-row justify-between items-center">
+          <div className="flex items-center gap-2 mb-4 md:mb-0">
+            <Image src="/placeholder.svg?height=24&width=24" alt="Logo" width={24} height={24} />
+            <span className="text-sm font-semibold">Bangladesh Tourism</span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} Bangladesh Tourism. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    )
+  }
+
   return (
-    <footer className="bg-green-900 text-white">
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* About */}
-          <div>
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="relative w-10 h-10 bg-white rounded-full p-1">
-                <Image src="/images/logo.png" alt="Tourist Guide Logo" fill className="object-contain" />
-              </div>
-              <span className="font-bold text-xl">Tourist Guide</span>
-            </div>
-            <p className="text-green-100 mb-6">
-              Your trusted companion for exploring the natural wonders of Bangladesh. We provide immersive experiences
-              that connect you with nature.
-            </p>
-            <div className="flex space-x-4">
-              <Link href="#" className="bg-green-800 hover:bg-green-700 p-2 rounded-full">
-                <Facebook size={20} />
-              </Link>
-              <Link href="#" className="bg-green-800 hover:bg-green-700 p-2 rounded-full">
-                <Twitter size={20} />
-              </Link>
-              <Link href="#" className="bg-green-800 hover:bg-green-700 p-2 rounded-full">
-                <Instagram size={20} />
-              </Link>
-              <Link href="#" className="bg-green-800 hover:bg-green-700 p-2 rounded-full">
-                <Youtube size={20} />
-              </Link>
-            </div>
+    <footer className="border-t py-12 bg-muted/40">
+      <div className="container grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <Image src="/placeholder.svg?height=32&width=32" alt="Logo" width={32} height={32} />
+            <span className="text-xl font-bold">Bangladesh Tourism</span>
           </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-6">Quick Links</h3>
-            <ul className="space-y-4">
-              <li>
-                <Link href="/" className="text-green-100 hover:text-white">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/packages" className="text-green-100 hover:text-white">
-                  Tour Packages
-                </Link>
-              </li>
-              <li>
-                <Link href="/guides" className="text-green-100 hover:text-white">
-                  Tour Guides
-                </Link>
-              </li>
-              <li>
-                <Link href="/community" className="text-green-100 hover:text-white">
-                  Community
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-green-100 hover:text-white">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-green-100 hover:text-white">
-                  Contact Us
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Popular Destinations */}
-          <div>
-            <h3 className="text-xl font-bold mb-6">Popular Destinations</h3>
-            <ul className="space-y-4">
-              <li>
-                <Link href="#" className="text-green-100 hover:text-white">
-                  Sundarbans Mangrove Forest
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-green-100 hover:text-white">
-                  Bandarban Hill Tracts
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-green-100 hover:text-white">
-                  Sylhet Tea Gardens
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-green-100 hover:text-white">
-                  Cox's Bazar Beach
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-green-100 hover:text-white">
-                  Rangamati Lake
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-green-100 hover:text-white">
-                  Saint Martin Island
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-xl font-bold mb-6">Contact Us</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start">
-                <MapPin className="mr-3 h-5 w-5 text-green-300" />
-                <span className="text-green-100">123 Nature Street, Dhaka, Bangladesh</span>
-              </li>
-              <li className="flex items-center">
-                <Phone className="mr-3 h-5 w-5 text-green-300" />
-                <span className="text-green-100">+880 123 456 7890</span>
-              </li>
-              <li className="flex items-center">
-                <Mail className="mr-3 h-5 w-5 text-green-300" />
-                <span className="text-green-100">info@touristguide.com</span>
-              </li>
-            </ul>
-            <div className="mt-6">
-              <h4 className="font-medium mb-2">Working Hours</h4>
-              <p className="text-green-100">
-                Monday - Friday: 9:00 AM - 6:00 PM
-                <br />
-                Saturday: 10:00 AM - 4:00 PM
-                <br />
-                Sunday: Closed
-              </p>
-            </div>
+          <p className="text-muted-foreground">
+            Discover the beauty and culture of Bangladesh with our expert tour guides and carefully curated packages.
+          </p>
+          <div className="flex space-x-4">
+            <Link href="#" className="text-muted-foreground hover:text-primary">
+              <FacebookIcon className="h-5 w-5" />
+            </Link>
+            <Link href="#" className="text-muted-foreground hover:text-primary">
+              <TwitterIcon className="h-5 w-5" />
+            </Link>
+            <Link href="#" className="text-muted-foreground hover:text-primary">
+              <InstagramIcon className="h-5 w-5" />
+            </Link>
+            <Link href="#" className="text-muted-foreground hover:text-primary">
+              <LinkedinIcon className="h-5 w-5" />
+            </Link>
+            <Link href="#" className="text-muted-foreground hover:text-primary">
+              <GithubIcon className="h-5 w-5" />
+            </Link>
           </div>
         </div>
 
-        <div className="border-t border-green-800 mt-12 pt-8 text-center">
-          <p className="text-green-100">&copy; {new Date().getFullYear()} Tourist Guide. All rights reserved.</p>
+        <div>
+          <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
+          <ul className="space-y-2">
+            <li>
+              <Link href="/" className="text-muted-foreground hover:text-primary">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link href="/trips" className="text-muted-foreground hover:text-primary">
+                Trips
+              </Link>
+            </li>
+            <li>
+              <Link href="/community" className="text-muted-foreground hover:text-primary">
+                Community
+              </Link>
+            </li>
+            <li>
+              <Link href="/about-us" className="text-muted-foreground hover:text-primary">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link href="/login" className="text-muted-foreground hover:text-primary">
+                Login / Register
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="font-semibold text-lg mb-4">Popular Destinations</h3>
+          <ul className="space-y-2">
+            <li>
+              <Link href="/trips" className="text-muted-foreground hover:text-primary">
+                Cox's Bazar
+              </Link>
+            </li>
+            <li>
+              <Link href="/trips" className="text-muted-foreground hover:text-primary">
+                Sundarbans
+              </Link>
+            </li>
+            <li>
+              <Link href="/trips" className="text-muted-foreground hover:text-primary">
+                Sylhet
+              </Link>
+            </li>
+            <li>
+              <Link href="/trips" className="text-muted-foreground hover:text-primary">
+                Saint Martin
+              </Link>
+            </li>
+            <li>
+              <Link href="/trips" className="text-muted-foreground hover:text-primary">
+                Bandarban
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="font-semibold text-lg mb-4">Contact Us</h3>
+          <ul className="space-y-2">
+            <li className="text-muted-foreground">123 Tourism Road, Dhaka, Bangladesh</li>
+            <li className="text-muted-foreground">info@bangladeshtourism.com</li>
+            <li className="text-muted-foreground">+880 1234 567890</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="container mt-8 pt-8 border-t">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <p className="text-sm text-muted-foreground mb-4 md:mb-0">
+            &copy; {new Date().getFullYear()} Bangladesh Tourism. All rights reserved.
+          </p>
+          <div className="flex space-x-4">
+            <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+              Privacy Policy
+            </Link>
+            <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+              Terms of Service
+            </Link>
+            <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+              Cookie Policy
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

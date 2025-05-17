@@ -1,322 +1,412 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Textarea } from "@/components/ui/textarea"
+import { SaveIcon } from "lucide-react"
 
-export default function SettingsPage() {
+export default function AdminSettingsPage() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-        <p className="text-muted-foreground">Manage your application settings</p>
-      </div>
+    <div>
+      <h1 className="text-3xl font-bold mb-6">System Settings</h1>
 
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5 mb-8">
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="appearance">Appearance</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="advanced">Advanced</TabsTrigger>
+          <TabsTrigger value="email">Email</TabsTrigger>
+          <TabsTrigger value="payment">Payment</TabsTrigger>
+          <TabsTrigger value="security">Security</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="general" className="space-y-4 mt-6">
+        {/* General Settings */}
+        <TabsContent value="general">
           <Card>
             <CardHeader>
-              <CardTitle>General Information</CardTitle>
-              <CardDescription>Update your site's basic information</CardDescription>
+              <CardTitle>General Settings</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+            <CardContent>
+              <form className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="site-name">Site Name</Label>
-                  <Input id="site-name" defaultValue="Tourist Guide" />
+                  <Input id="site-name" defaultValue="Bangladesh Tourism" />
                 </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="site-url">Site URL</Label>
-                  <Input id="site-url" defaultValue="https://touristguide.com" />
+                  <Label htmlFor="site-description">Site Description</Label>
+                  <Textarea
+                    id="site-description"
+                    defaultValue="Discover the beauty and culture of Bangladesh with our expert tour guides and carefully curated packages."
+                    rows={3}
+                  />
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="site-description">Site Description</Label>
-                <Textarea
-                  id="site-description"
-                  defaultValue="Your trusted companion for exploring the natural wonders of Bangladesh. We provide immersive experiences that connect you with nature."
-                  className="min-h-[100px]"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="contact-email">Contact Email</Label>
-                <Input id="contact-email" type="email" defaultValue="info@touristguide.com" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="contact-phone">Contact Phone</Label>
-                <Input id="contact-phone" defaultValue="+880 123 456 7890" />
-              </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="contact-email">Contact Email</Label>
+                    <Input id="contact-email" type="email" defaultValue="info@bangladeshtourism.com" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="contact-phone">Contact Phone</Label>
+                    <Input id="contact-phone" defaultValue="+880 1234 567890" />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="address">Address</Label>
+                  <Input id="address" defaultValue="123 Tourism Road, Dhaka, Bangladesh" />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="timezone">Timezone</Label>
+                    <Select defaultValue="asia-dhaka">
+                      <SelectTrigger id="timezone">
+                        <SelectValue placeholder="Select timezone" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="asia-dhaka">Asia/Dhaka</SelectItem>
+                        <SelectItem value="utc">UTC</SelectItem>
+                        <SelectItem value="america-new_york">America/New_York</SelectItem>
+                        <SelectItem value="europe-london">Europe/London</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="date-format">Date Format</Label>
+                    <Select defaultValue="dd-mm-yyyy">
+                      <SelectTrigger id="date-format">
+                        <SelectValue placeholder="Select date format" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="dd-mm-yyyy">DD-MM-YYYY</SelectItem>
+                        <SelectItem value="mm-dd-yyyy">MM-DD-YYYY</SelectItem>
+                        <SelectItem value="yyyy-mm-dd">YYYY-MM-DD</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="maintenance-mode">Maintenance Mode</Label>
+                    <p className="text-sm text-muted-foreground">
+                      When enabled, the site will show a maintenance page to visitors
+                    </p>
+                  </div>
+                  <Switch id="maintenance-mode" />
+                </div>
+
+                <div className="flex justify-end">
+                  <Button>
+                    <SaveIcon className="h-4 w-4 mr-2" />
+                    Save Changes
+                  </Button>
+                </div>
+              </form>
             </CardContent>
-            <CardFooter>
-              <Button className="bg-green-600 hover:bg-green-700">Save Changes</Button>
-            </CardFooter>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Company Information</CardTitle>
-              <CardDescription>Update your company details</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="company-name">Company Name</Label>
-                  <Input id="company-name" defaultValue="Tourist Guide Ltd." />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="company-address">Address</Label>
-                  <Input id="company-address" defaultValue="123 Nature Street, Dhaka" />
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="company-city">City</Label>
-                  <Input id="company-city" defaultValue="Dhaka" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="company-state">State/Province</Label>
-                  <Input id="company-state" defaultValue="Dhaka Division" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="company-zip">Postal/Zip Code</Label>
-                  <Input id="company-zip" defaultValue="1000" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="company-country">Country</Label>
-                <Input id="company-country" defaultValue="Bangladesh" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button className="bg-green-600 hover:bg-green-700">Save Changes</Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="appearance" className="space-y-4 mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Theme Settings</CardTitle>
-              <CardDescription>Customize the look and feel of your site</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>Color Scheme</Label>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      id="theme-green"
-                      name="theme"
-                      className="w-4 h-4 text-green-600"
-                      defaultChecked
-                    />
-                    <Label htmlFor="theme-green" className="flex items-center">
-                      <div className="w-5 h-5 rounded-full bg-green-600 mr-2"></div>
-                      Green (Default)
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input type="radio" id="theme-blue" name="theme" className="w-4 h-4 text-blue-600" />
-                    <Label htmlFor="theme-blue" className="flex items-center">
-                      <div className="w-5 h-5 rounded-full bg-blue-600 mr-2"></div>
-                      Blue
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input type="radio" id="theme-amber" name="theme" className="w-4 h-4 text-amber-600" />
-                    <Label htmlFor="theme-amber" className="flex items-center">
-                      <div className="w-5 h-5 rounded-full bg-amber-600 mr-2"></div>
-                      Amber
-                    </Label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label>Font Size</Label>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="flex items-center space-x-2">
-                    <input type="radio" id="font-small" name="font-size" className="w-4 h-4" />
-                    <Label htmlFor="font-small">Small</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input type="radio" id="font-medium" name="font-size" className="w-4 h-4" defaultChecked />
-                    <Label htmlFor="font-medium">Medium (Default)</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input type="radio" id="font-large" name="font-size" className="w-4 h-4" />
-                    <Label htmlFor="font-large">Large</Label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Switch id="dark-mode" />
-                <Label htmlFor="dark-mode">Enable Dark Mode</Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Switch id="animations" defaultChecked />
-                <Label htmlFor="animations">Enable Animations</Label>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button className="bg-green-600 hover:bg-green-700">Save Changes</Button>
-            </CardFooter>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Logo & Favicon</CardTitle>
-              <CardDescription>Update your site's logo and favicon</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>Site Logo</Label>
-                <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 rounded-md bg-green-100 flex items-center justify-center">
-                    <span className="text-green-700 font-bold text-xl">TG</span>
-                  </div>
-                  <Button variant="outline">Upload New Logo</Button>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label>Favicon</Label>
-                <div className="flex items-center space-x-4">
-                  <div className="w-8 h-8 rounded-md bg-green-600 flex items-center justify-center">
-                    <span className="text-white font-bold text-xs">TG</span>
-                  </div>
-                  <Button variant="outline">Upload New Favicon</Button>
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button className="bg-green-600 hover:bg-green-700">Save Changes</Button>
-            </CardFooter>
           </Card>
         </TabsContent>
 
-        <TabsContent value="notifications" className="space-y-4 mt-6">
+        {/* Appearance Settings */}
+        <TabsContent value="appearance">
           <Card>
             <CardHeader>
-              <CardTitle>Email Notifications</CardTitle>
-              <CardDescription>Configure when and how you receive email notifications</CardDescription>
+              <CardTitle>Appearance Settings</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between py-2">
-                <div className="space-y-0.5">
-                  <Label>New Booking Notifications</Label>
-                  <p className="text-sm text-muted-foreground">Receive an email when a new booking is made</p>
+            <CardContent>
+              <form className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="logo">Logo</Label>
+                  <div className="flex items-center gap-4">
+                    <div className="h-16 w-16 bg-muted rounded-md flex items-center justify-center">
+                      <span className="text-muted-foreground">Logo</span>
+                    </div>
+                    <Input id="logo" type="file" />
+                  </div>
                 </div>
-                <Switch defaultChecked />
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <div className="space-y-0.5">
-                  <Label>Booking Cancellation Notifications</Label>
-                  <p className="text-sm text-muted-foreground">Receive an email when a booking is cancelled</p>
+
+                <div className="space-y-2">
+                  <Label htmlFor="favicon">Favicon</Label>
+                  <div className="flex items-center gap-4">
+                    <div className="h-8 w-8 bg-muted rounded-md flex items-center justify-center">
+                      <span className="text-muted-foreground text-xs">Favicon</span>
+                    </div>
+                    <Input id="favicon" type="file" />
+                  </div>
                 </div>
-                <Switch defaultChecked />
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <div className="space-y-0.5">
-                  <Label>New User Registration Notifications</Label>
-                  <p className="text-sm text-muted-foreground">Receive an email when a new user registers</p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="primary-color">Primary Color</Label>
+                    <div className="flex">
+                      <Input id="primary-color" defaultValue="#3B82F6" />
+                      <div className="w-10 h-10 bg-primary ml-2 rounded-md"></div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="secondary-color">Secondary Color</Label>
+                    <div className="flex">
+                      <Input id="secondary-color" defaultValue="#10B981" />
+                      <div className="w-10 h-10 bg-green-500 ml-2 rounded-md"></div>
+                    </div>
+                  </div>
                 </div>
-                <Switch />
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <div className="space-y-0.5">
-                  <Label>New Review Notifications</Label>
-                  <p className="text-sm text-muted-foreground">Receive an email when a new review is posted</p>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="dark-mode">Dark Mode</Label>
+                    <p className="text-sm text-muted-foreground">Enable dark mode option for users</p>
+                  </div>
+                  <Switch id="dark-mode" defaultChecked />
                 </div>
-                <Switch defaultChecked />
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <div className="space-y-0.5">
-                  <Label>System Update Notifications</Label>
-                  <p className="text-sm text-muted-foreground">Receive an email about system updates and maintenance</p>
+
+                <div className="flex justify-end">
+                  <Button>
+                    <SaveIcon className="h-4 w-4 mr-2" />
+                    Save Changes
+                  </Button>
                 </div>
-                <Switch defaultChecked />
-              </div>
+              </form>
             </CardContent>
-            <CardFooter>
-              <Button className="bg-green-600 hover:bg-green-700">Save Changes</Button>
-            </CardFooter>
           </Card>
         </TabsContent>
 
-        <TabsContent value="advanced" className="space-y-4 mt-6">
+        {/* Email Settings */}
+        <TabsContent value="email">
           <Card>
             <CardHeader>
-              <CardTitle>System Settings</CardTitle>
-              <CardDescription>Configure advanced system settings</CardDescription>
+              <CardTitle>Email Settings</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between py-2">
-                <div className="space-y-0.5">
-                  <Label>Maintenance Mode</Label>
-                  <p className="text-sm text-muted-foreground">Put the site in maintenance mode</p>
+            <CardContent>
+              <form className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="smtp-host">SMTP Host</Label>
+                  <Input id="smtp-host" defaultValue="smtp.example.com" />
                 </div>
-                <Switch />
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <div className="space-y-0.5">
-                  <Label>Debug Mode</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Enable detailed error messages (not recommended for production)
-                  </p>
-                </div>
-                <Switch />
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <div className="space-y-0.5">
-                  <Label>Cache System</Label>
-                  <p className="text-sm text-muted-foreground">Enable system caching for better performance</p>
-                </div>
-                <Switch defaultChecked />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="session-timeout">Session Timeout (minutes)</Label>
-                <Input id="session-timeout" type="number" defaultValue="60" />
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button variant="outline" className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700">
-                Clear Cache
-              </Button>
-              <Button className="bg-green-600 hover:bg-green-700">Save Changes</Button>
-            </CardFooter>
-          </Card>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="smtp-port">SMTP Port</Label>
+                    <Input id="smtp-port" defaultValue="587" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="smtp-encryption">Encryption</Label>
+                    <Select defaultValue="tls">
+                      <SelectTrigger id="smtp-encryption">
+                        <SelectValue placeholder="Select encryption" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="tls">TLS</SelectItem>
+                        <SelectItem value="ssl">SSL</SelectItem>
+                        <SelectItem value="none">None</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="smtp-username">SMTP Username</Label>
+                    <Input id="smtp-username" defaultValue="info@bangladeshtourism.com" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="smtp-password">SMTP Password</Label>
+                    <Input id="smtp-password" type="password" defaultValue="********" />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="from-email">From Email</Label>
+                  <Input id="from-email" defaultValue="noreply@bangladeshtourism.com" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="from-name">From Name</Label>
+                  <Input id="from-name" defaultValue="Bangladesh Tourism" />
+                </div>
+
+                <div className="flex justify-end">
+                  <Button>
+                    <SaveIcon className="h-4 w-4 mr-2" />
+                    Save Changes
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Payment Settings */}
+        <TabsContent value="payment">
           <Card>
             <CardHeader>
-              <CardTitle>Backup & Restore</CardTitle>
-              <CardDescription>Manage system backups and restoration</CardDescription>
+              <CardTitle>Payment Settings</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>Database Backup</Label>
-                <p className="text-sm text-muted-foreground">Last backup: May 15, 2023, 10:30 AM</p>
-              </div>
-              <div className="flex space-x-2">
-                <Button variant="outline">Create Backup</Button>
-                <Button variant="outline">Restore from Backup</Button>
-              </div>
+            <CardContent>
+              <form className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="currency">Default Currency</Label>
+                  <Select defaultValue="bdt">
+                    <SelectTrigger id="currency">
+                      <SelectValue placeholder="Select currency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="bdt">BDT (৳)</SelectItem>
+                      <SelectItem value="usd">USD ($)</SelectItem>
+                      <SelectItem value="eur">EUR (€)</SelectItem>
+                      <SelectItem value="gbp">GBP (£)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium">Payment Gateways</h3>
+
+                  <div className="border rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center">
+                        <Switch id="stripe-enabled" defaultChecked />
+                        <Label htmlFor="stripe-enabled" className="ml-2">
+                          Stripe
+                        </Label>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="stripe-key">API Key</Label>
+                          <Input id="stripe-key" defaultValue="pk_test_***********************" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="stripe-secret">Secret Key</Label>
+                          <Input id="stripe-secret" type="password" defaultValue="sk_test_***********************" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center">
+                        <Switch id="paypal-enabled" />
+                        <Label htmlFor="paypal-enabled" className="ml-2">
+                          PayPal
+                        </Label>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="paypal-client-id">Client ID</Label>
+                          <Input id="paypal-client-id" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="paypal-secret">Secret</Label>
+                          <Input id="paypal-secret" type="password" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center">
+                        <Switch id="bkash-enabled" defaultChecked />
+                        <Label htmlFor="bkash-enabled" className="ml-2">
+                          bKash
+                        </Label>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="bkash-username">Username</Label>
+                          <Input id="bkash-username" defaultValue="bangladeshtourism" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="bkash-password">Password</Label>
+                          <Input id="bkash-password" type="password" defaultValue="********" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end">
+                  <Button>
+                    <SaveIcon className="h-4 w-4 mr-2" />
+                    Save Changes
+                  </Button>
+                </div>
+              </form>
             </CardContent>
-            <CardFooter>
-              <Button className="bg-green-600 hover:bg-green-700">Schedule Automatic Backups</Button>
-            </CardFooter>
+          </Card>
+        </TabsContent>
+
+        {/* Security Settings */}
+        <TabsContent value="security">
+          <Card>
+            <CardHeader>
+              <CardTitle>Security Settings</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="two-factor">Two-Factor Authentication</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Require administrators to use two-factor authentication
+                    </p>
+                  </div>
+                  <Switch id="two-factor" defaultChecked />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="force-ssl">Force SSL</Label>
+                    <p className="text-sm text-muted-foreground">Force all connections to use HTTPS instead of HTTP</p>
+                  </div>
+                  <Switch id="force-ssl" defaultChecked />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password-policy">Password Policy</Label>
+                  <Select defaultValue="strong">
+                    <SelectTrigger id="password-policy">
+                      <SelectValue placeholder="Select password policy" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="basic">Basic (minimum 8 characters)</SelectItem>
+                      <SelectItem value="medium">Medium (minimum 8 characters, including numbers)</SelectItem>
+                      <SelectItem value="strong">
+                        Strong (minimum 8 characters, including numbers and special characters)
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="session-timeout">Session Timeout (minutes)</Label>
+                  <Input id="session-timeout" type="number" defaultValue="30" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="login-attempts">Maximum Login Attempts</Label>
+                  <Input id="login-attempts" type="number" defaultValue="5" />
+                </div>
+
+                <div className="flex justify-end">
+                  <Button>
+                    <SaveIcon className="h-4 w-4 mr-2" />
+                    Save Changes
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
           </Card>
         </TabsContent>
       </Tabs>

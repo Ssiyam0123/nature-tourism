@@ -1,108 +1,130 @@
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Facebook, Twitter } from "lucide-react"
+import { Label } from "@/components/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import Link from "next/link"
 
-export default function LoginPage() {
+export default function AuthPage() {
   return (
-    <main className="min-h-screen bg-green-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-md">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-green-900">Welcome Back</h1>
-          <p className="mt-2 text-sm text-green-700">Sign in to your account to continue</p>
-        </div>
+    <div className="container mx-auto flex items-center justify-center min-h-[calc(100vh-200px)] px-4 py-8">
+      <Card className="w-full max-w-md">
+        <Tabs defaultValue="login" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="login">Login</TabsTrigger>
+            <TabsTrigger value="register">Register</TabsTrigger>
+          </TabsList>
 
-        <form className="mt-8 space-y-6">
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-green-800 mb-1">
-                Email Address
-              </label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="Enter your email"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-green-800 mb-1">
-                Password
-              </label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="Enter your password"
-              />
-            </div>
-          </div>
+          {/* Login Tab */}
+          <TabsContent value="login">
+            <CardHeader>
+              <CardTitle>Login to your account</CardTitle>
+              <CardDescription>Enter your email and password to access your account</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="name@example.com" />
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password">Password</Label>
+                  <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                    Forgot password?
+                  </Link>
+                </div>
+                <Input id="password" type="password" />
+              </div>
+              <Button className="w-full">Login</Button>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                </div>
+              </div>
+              <Button variant="outline" className="w-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="mr-2"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
+                </svg>
+                Google
+              </Button>
+            </CardContent>
+          </TabsContent>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Checkbox id="remember-me" />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-green-800">
-                Remember me
-              </label>
-            </div>
-            <div className="text-sm">
-              <Link href="/forgot-password" className="text-green-600 hover:text-green-500">
-                Forgot your password?
-              </Link>
-            </div>
-          </div>
-
-          <div>
-            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700">
-              Sign in
-            </Button>
-          </div>
-        </form>
-
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or continue with</span>
-            </div>
-          </div>
-
-          <div className="mt-6 grid grid-cols-2 gap-3">
-            <Button
-              variant="outline"
-              className="w-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 flex items-center justify-center"
-            >
-              <Facebook className="h-5 w-5 text-blue-600 mr-2" />
-              Facebook
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 flex items-center justify-center"
-            >
-              <Twitter className="h-5 w-5 text-blue-400 mr-2" />
-              Twitter
-            </Button>
-          </div>
-        </div>
-
-        <div className="text-center mt-4">
-          <p className="text-sm text-green-700">
-            Don't have an account?{" "}
-            <Link href="/register" className="font-medium text-green-600 hover:text-green-500">
-              Sign up
+          {/* Register Tab */}
+          <TabsContent value="register">
+            <CardHeader>
+              <CardTitle>Create an account</CardTitle>
+              <CardDescription>Enter your details to create a new account</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input id="name" placeholder="John Doe" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="name@example.com" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input id="password" type="password" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Confirm Password</Label>
+                <Input id="confirm-password" type="password" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="profile-image">Profile Image</Label>
+                <Input id="profile-image" type="file" />
+              </div>
+              <Button className="w-full">Register</Button>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                </div>
+              </div>
+              <Button variant="outline" className="w-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="mr-2"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
+                </svg>
+                Google
+              </Button>
+            </CardContent>
+          </TabsContent>
+        </Tabs>
+        <CardFooter className="flex justify-center">
+          <p className="text-sm text-muted-foreground">
+            By continuing, you agree to our{" "}
+            <Link href="/terms" className="text-primary hover:underline">
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link href="/privacy" className="text-primary hover:underline">
+              Privacy Policy
             </Link>
           </p>
-        </div>
-      </div>
-    </main>
+        </CardFooter>
+      </Card>
+    </div>
   )
 }
