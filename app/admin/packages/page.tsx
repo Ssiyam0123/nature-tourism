@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -16,6 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { fetchPackages, fetchPackagesByStatus, fetchPackageStatistics } from "@/lib/data"
 import { EditIcon, EyeIcon, FilterIcon, MoreHorizontalIcon, PlusIcon, SearchIcon, TrashIcon } from "lucide-react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { Suspense } from "react"
 
 // Loading component for package stats
@@ -37,6 +40,7 @@ function PackageStatsLoading() {
 // Package stats component
 async function PackageStats() {
   const stats = await fetchPackageStatistics()
+  // const router = useRouter()
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -389,12 +393,13 @@ async function InactivePackagesTable() {
 }
 
 export default function AdminPackagesPage() {
+  const router = useRouter()
   return (
     <div>
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h1 className="text-3xl font-bold">Package Management</h1>
         <div className="flex flex-col sm:flex-row gap-2">
-          <Button>
+          <Button onClick={()=>router.push('/admin/add-package')}>
             <PlusIcon className="h-4 w-4 mr-2" />
             Add Package
           </Button>

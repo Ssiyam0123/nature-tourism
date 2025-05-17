@@ -1,11 +1,77 @@
+'use client'
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
+import { useState } from "react"
 
 export default function AuthPage() {
+  // State for login form
+  const [loginData, setLoginData] = useState({
+    email: '',
+    password: ''
+  })
+
+  // State for register form
+  const [registerData, setRegisterData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    profileImage: null
+  })
+
+  // Handle login input changes
+  const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target
+    setLoginData(prev => ({
+      ...prev,
+      [id]: value
+    }))
+  }
+
+  // Handle register input changes
+  const handleRegisterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value, files } = e.target
+    setRegisterData(prev => ({
+      ...prev,
+      [id]: files ? files[0] : value
+    }))
+  }
+
+  // Handle login submission
+  const handleLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Login Data:', loginData)
+    // Add your authentication logic here
+  }
+
+  // Handle register submission
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Register Data:', registerData)
+    try {
+      const res= await fetch("/api/register",{
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: registerData?.name,
+          email: registerData?.email,
+          password: registerData.password,
+          profileImage: registerData.profileImage
+        })
+      })
+    } catch (error: any) {
+      throw new Error('register filed')
+    }
+    // Add your registration logic here
+  }
+
   return (
     <div className="container mx-auto flex items-center justify-center min-h-[calc(100vh-200px)] px-4 py-8">
       <Card className="w-full max-w-md">
@@ -22,20 +88,33 @@ export default function AuthPage() {
               <CardDescription>Enter your email and password to access your account</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="name@example.com" />
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-                    Forgot password?
-                  </Link>
+              <form onSubmit={handleLoginSubmit}>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    placeholder="name@example.com" 
+                    value={loginData.email}
+                    onChange={handleLoginChange}
+                  />
                 </div>
-                <Input id="password" type="password" />
-              </div>
-              <Button className="w-full">Login</Button>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password">Password</Label>
+                    <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                      Forgot password?
+                    </Link>
+                  </div>
+                  <Input 
+                    id="password" 
+                    type="password" 
+                    value={loginData.password}
+                    onChange={handleLoginChange}
+                  />
+                </div>
+                <Button type="submit" className="w-full mt-4">Login</Button>
+              </form>
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
@@ -67,27 +146,54 @@ export default function AuthPage() {
               <CardDescription>Enter your details to create a new account</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input id="name" placeholder="John Doe" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="name@example.com" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="confirm-password">Confirm Password</Label>
-                <Input id="confirm-password" type="password" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="profile-image">Profile Image</Label>
-                <Input id="profile-image" type="file" />
-              </div>
-              <Button className="w-full">Register</Button>
+              <form onSubmit={handleRegisterSubmit}>
+                <div className="space-y-2">
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input 
+                    id="name" 
+                    placeholder="John Doe" 
+                    value={registerData.name}
+                    onChange={handleRegisterChange}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    placeholder="name@example.com" 
+                    value={registerData.email}
+                    onChange={handleRegisterChange}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input 
+                    id="password" 
+                    type="password" 
+                    value={registerData.password}
+                    onChange={handleRegisterChange}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Input 
+                    id="confirmPassword" 
+                    type="password" 
+                    value={registerData.confirmPassword}
+                    onChange={handleRegisterChange}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="profileImage">Profile Image</Label>
+                  <Input 
+                    id="profileImage" 
+                    type="file" 
+                    onChange={handleRegisterChange}
+                  />
+                </div>
+                <Button type="submit" className="w-full mt-4">Register</Button>
+              </form>
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
